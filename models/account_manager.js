@@ -46,4 +46,4 @@ var accManagerSchema = new mongoose.Schema({
 
 accManagerSchema.plugin(passportLocalMongoose);
 
-modules.export = mongoose.model('account_manager', accManagerSchema);
+module.export = mongoose.model('account_manager', accManagerSchema);

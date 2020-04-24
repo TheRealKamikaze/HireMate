@@ -28,4 +28,4 @@ var freelanceRecruitersSchema = new mongoose.Schema({
 }).plugin(uniquePlugin);
 
 freelanceRecruitersSchema.plugin(passportLocalMongoose);
-modules.export = mongoose.model("freelanceRecruiter",freelanceRecruitersSchema); 
+module.export = mongoose.model("freelanceRecruiter",freelanceRecruitersSchema); 

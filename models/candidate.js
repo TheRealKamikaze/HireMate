@@ -23,4 +23,4 @@ var candidateSchema = new mongoose.Schema({
 	]
 })
 
-module.exports = mongooose.model("candidate",candidateSchema);
+module.exports = mongoose.model("candidate",candidateSchema);

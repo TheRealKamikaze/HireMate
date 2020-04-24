@@ -7,11 +7,11 @@ var jobs					= require('./job');
 var assignedJobsSchema = new mongoose.Schema({
 	account_manager: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: account_manager
+		ref: "account_manager"
 	},
 	recruiter_id:{
 		type: mongoose.Schema.Types.ObjectId,
-		ref: freelance_recruiters
+		ref: "freelance_recruiters"
 	},
 	job_id:{
 		type: mongoose.Schema.Types.ObjectId,
