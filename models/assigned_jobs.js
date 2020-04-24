@@ -2,6 +2,7 @@ var mongoose				= require('mongoose');
 var freelance_recruiters	= require("./freelance_recruiters");
 var account_manager			= require('./account_manager');
 var candidate				= require("./candidate");
+var jobs					= require('./job');
 
 var assignedJobsSchema = new mongoose.Schema({
 	account_manager: {

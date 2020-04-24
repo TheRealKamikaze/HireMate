@@ -2,7 +2,22 @@ var mongoose				= require('mongoose');
 var passportLocalMongoose	= require('passport-local-mongoose');
 var freelance_recruiters	= require("./freelance_recruiters");
 var ass_jobs				= require("./assigned_jobs");
-var uniquePlugin = require('mongoose-unique-validator');
+var uniquePlugin 			= require('mongoose-unique-validator');
+var jobs					= require('./job');
+
+var activeJobSchema=new mongoose.Schema({
+			job_id: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "jobs"
+			},
+			[
+				{
+					type: mongoose.Schema.Types.ObjectId,
+					ref: "ass_jobs"
+				}
+			]
+		
+}); 
 
 var accManagerSchema = new mongoose.Schema({
 	employee_id: {
@@ -16,7 +31,7 @@ var accManagerSchema = new mongoose.Schema({
 	jobs:[
 		{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: "jobs"		//verify
+			ref: "jobs"		
 		}
 	],
 	freelance_recruiters: [
@@ -25,16 +40,8 @@ var accManagerSchema = new mongoose.Schema({
 			ref: "freelance_recruiters"
 		}
 	],
-	active_jobs:[						//verify this
-		{
-			job_id: ObjectId,
-			[
-				{
-					type: mongoose.Schema.Types.ObjectId,
-					ref: "ass_jobs"
-				}
-			]
-		}
+	active_jobs:[						
+		
 	],
 	password: String
 }).plugin(uniquePlugin);
