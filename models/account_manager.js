@@ -10,7 +10,7 @@ var activeJobSchema=new mongoose.Schema({
 				type: mongoose.Schema.Types.ObjectId,
 				ref: "jobs"
 			},
-			[
+			assigned_recruiters: [
 				{
 					type: mongoose.Schema.Types.ObjectId,
 					ref: "ass_jobs"
@@ -40,9 +40,7 @@ var accManagerSchema = new mongoose.Schema({
 			ref: "freelance_recruiters"
 		}
 	],
-	active_jobs:[						
-		
-	],
+	active_jobs:[activeJobSchema],
 	password: String
 }).plugin(uniquePlugin);
 
