@@ -1,0 +1,5 @@
+<%- include('./partials/header.ejs') %>
+
+<% accountManagers.forEach(function(manager){ %>
+	<a href="/addRecruiter/<%= manager._id %>/">link </a>
+<% }) %>

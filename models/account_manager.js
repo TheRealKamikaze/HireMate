@@ -44,6 +44,6 @@ var accManagerSchema = new mongoose.Schema({
 	password: String
 }).plugin(uniquePlugin);
 
-accManagerSchema.plugin(passportLocalMongoose);
+// accManagerSchema.plugin(passportLocalMongoose);
 
-module.export = mongoose.model('account_manager', accManagerSchema);
+module.exports = mongoose.model('account_manager', accManagerSchema);

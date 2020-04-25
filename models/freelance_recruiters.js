@@ -8,7 +8,7 @@ var freelanceRecruitersSchema = new mongoose.Schema({
 	name: String,
 	email: {
 		type: String,
-		unique: true
+		// unique: true
 	},
 	profile_type: String,
 	experience_level: String,
@@ -25,7 +25,8 @@ var freelanceRecruitersSchema = new mongoose.Schema({
 		}
 	],
 	password: String
-}).plugin(uniquePlugin);
+})	//.plugin(uniquePlugin);
 
-freelanceRecruitersSchema.plugin(passportLocalMongoose);
-module.export = mongoose.model("freelanceRecruiter",freelanceRecruitersSchema); 
+// freelanceRecruitersSchema.plugin(passportLocalMongoose);
+
+module.exports = mongoose.model("freelance_recruiters",freelanceRecruitersSchema); 

@@ -1,5 +1,9 @@
 <%- include('partials/header.ejs') %>
 
-This is main page
+
+<% accountManagers.forEach(function(manager){ %>
+	<a href="/accountmanager/<%= manager._id %>/jobs">link </a>
+	<br>
+<% }) %>
 
 <%- include('partials/footer.ejs') %>

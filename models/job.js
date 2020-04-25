@@ -6,9 +6,10 @@ var jobSchema = new mongoose.Schema({
 	dept_name: String,
 	location: String,
 	job_number: Number,
+	job_type: String,
 	experience: String,
 	no_of_positions: Number,
-	Salary: String
+	salary: String
 })
 
 module.exports = mongoose.model("job",jobSchema);
