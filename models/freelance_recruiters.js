@@ -1,6 +1,6 @@
 var mongoose				= require('mongoose');
 var passportLocalMongoose	= require('passport-local-mongoose');
-var ass_jobs				= require("./assigned_jobs");
+var assignedJobs				= require("./assigned_jobs");
 var uniquePlugin = require('mongoose-unique-validator');
 
 var freelanceRecruitersSchema = new mongoose.Schema({
@@ -21,7 +21,7 @@ var freelanceRecruitersSchema = new mongoose.Schema({
 	assigned_jobs: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: "ass_jobs"
+			ref: "assigned_jobs"
 		}
 	],
 	password: String

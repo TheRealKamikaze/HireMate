@@ -30,4 +30,4 @@ var assignedJobsSchema = new mongoose.Schema({
 	feedback: String
 })
 
-module.exports = mongoose.model("assignedJob",assignedJobsSchema);
+module.exports = mongoose.model('assigned_jobs',assignedJobsSchema);

@@ -1,8 +1,14 @@
 <%- include('partials/header.ejs') %>
 
-
+<h1>Managers</h1>
 <% accountManagers.forEach(function(manager){ %>
 	<a href="/accountmanager/<%= manager._id %>/jobs">link </a>
+	<br>
+<% }) %>
+
+<h1>Recruiters</h1>
+<% recruiters.forEach(function(recruiter){ %>
+	<a href="/freelancerecruiters/<%= recruiter._id %>/assignedjobs">link </a>
 	<br>
 <% }) %>
 

@@ -35,14 +35,22 @@ app.use(passport.session());
 // 	next();
 // })
 
+
+//landing Page
 app.get("/",function(req,res){
 	accountManagers.find({},function(err,managers){
 		if(err)
 			console.log(err);
-		res.render("index",{accountManagers: managers});
+		freelanceRecruiters.find({},function(err,recruits){
+			if(err)
+				console.log(err)
+			res.render("index",{accountManagers: managers,recruiters: recruits});
+
+		})
 	})
 });
 
+//shows all available jobs
 app.get("/accountmanager/:id/jobs", function(req,res){
 	jobs.find({},function(err,foundJobs){
 		if(err)
@@ -50,6 +58,8 @@ app.get("/accountmanager/:id/jobs", function(req,res){
 		res.render("accountmanager/jobs",{jobs: foundJobs});
 	})
 })
+
+//route to select account manager you want to seed recruiters in
 app.get("/seedRecruiters",function(req,res){
 	accountManagers.find({},function(err,managers){
 		if(err)
@@ -58,12 +68,14 @@ app.get("/seedRecruiters",function(req,res){
 
 	})
 })
-
+//list the recruiters available
 app.get("/addRecruiter/:id",function(req,res){
 	freelanceRecruiters.find({},function(err,recruits){
 		res.render("listRecruiters",{ recruiters:recruits });
 	})
 
+
+	//dummy route to seed recruiters for each accountManager
 	app.get("/addRecruiter/:id/:id1",function(req,res){
 		accountManagers.findById(req.params.id,function(err,manager){
 			if(err)
@@ -75,13 +87,38 @@ app.get("/addRecruiter/:id",function(req,res){
 	})
 })
 
-
+//assign recruiters to the job
 app.post("/accountmanager/:id/job/addrecruiter",function(req,res){
-	console.log(req.params.id+" "+req.body.jobId+" "+req.body.recruiterId);
-	res.json({string: "done"});
+	// console.log(req.params.id+" "+req.body.jobId+" "+req.body.recruiterId);
+	
+	var today=new Date();
+	// console.log("RecruiterId: "+req.body.recruiterId)
+	var assjob={
+		account_manager: req.params.id,
+		recruiter_id: req.body.recruiterId,
+		job_id: req.body.jobId,
+		assigned_date: today.getFullYear()+'-'+today.getMonth()+'-'+today.getDate()+' '+today.getHours()+':'+today.getMinutes()+':'+today.getSeconds(),
+		start_date: '2020-06-22',
+		closed_date: '2020-06-22',
+		status: "none"
+	}
+	 assignedJobs.create(assjob,function(err,addedAssignedJob){
+	 	if(err)
+	 		console.log(err)
+	 	accountManagers.findById(addedAssignedJob.account_manager,function(err,manager){
+	 		manager.jobs.push(addedAssignedJob._id);
+	 		manager.save();
+	 	});
+	 	freelanceRecruiters.findById(addedAssignedJob.recruiter_id,function(err,recruiter){
+	 		recruiter.assigned_jobs.push(addedAssignedJob._id);
+	 		recruiter.save();
+	 	})
+	 	console.log(addedAssignedJob);
+	 	res.json({string: "done"});
+	 })
 })
 
-
+//get details of accountManager Logged in
 app.get("/getAccountManager/:id",function(req,res){
 	
 	accountManagers.findById(req.params.id).populate("freelance_recruiters").exec(function(err,manager){
@@ -91,6 +128,25 @@ app.get("/getAccountManager/:id",function(req,res){
 		res.json(manager);
 	})
 })
+
+
+
+
+//assigned jobs for recruiters
+app.get("/freelancerecruiters/:id/assignedjobs",async (req,res)=>{
+		const recruits= (await freelanceRecruiters.findById(req.params.id).populate("assigned_jobs"));
+		let jobsToSend =[];
+		for(let assjobs of recruits.assigned_jobs){
+			const jobb = await jobs.findById(assjobs.job_id);
+			let temp =await JSON.parse(JSON.stringify(jobb))
+			temp.assigned_job=await assjobs._id;
+			temp.status=await assjobs.status;
+			jobsToSend.push(await temp);
+			console.log(jobsToSend)
+		}
+		res.render("freelancerecruiters/jobs",{jobs:jobsToSend});
+})
+
 
 app.listen(3000,function(req,res){
 	console.log("HireMate is listening to your job requirements!!");
