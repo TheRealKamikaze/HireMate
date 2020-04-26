@@ -76,6 +76,12 @@ app.get("/addRecruiter/:id",function(req,res){
 })
 
 
+app.post("/accountmanager/:id/job/addrecruiter",function(req,res){
+	console.log(req.params.id+" "+req.body.jobId+" "+req.body.recruiterId);
+	res.json({string: "done"});
+})
+
+
 app.get("/getAccountManager/:id",function(req,res){
 	
 	accountManagers.findById(req.params.id).populate("freelance_recruiters").exec(function(err,manager){

@@ -51,7 +51,7 @@
 							<%= job.salary %>
 						</p>
 						<hr>
-					    <button class="btn btn btn-outline-secondary job-id" data-toggle="modal" data-target="#exampleModalCenter<%=job._id%>" onClick="getAccountManager()" >
+					    <button class="btn btn btn-outline-secondary job-id" data-toggle="modal" data-target="#exampleModalCenter<%=job._id%>"  >
 					    	Assign Recruiters
 					    </button>
 					  </div>
@@ -63,27 +63,21 @@
 					  <div class="modal-dialog modal-dialog-centered" role="document">
 					    <div class="modal-content">
 					      <div class="modal-header">
-					        <h5 class="modal-title" id="exampleModalLongTitle">Assign Recruiters</h5>
+					        <h5 class="modal-title" id="exampleModalLongTitle"><%= job.job_title%></h5>
 					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					          <span aria-hidden="true">&times;</span>
 					        </button>
 					      </div>
 					      <div class="modal-body">
-					      <%= job.job_title%>
+					      
 					        <br>
-					        <form>
 					        	<div class="form-group form-inline">
-								  <select class="form-control" id="assignRecruits" width="100%">
+								  <select class="form-control assignRecruits" id="recruit<%=job._id %>" width="100%">
 								    <option> Add recruit</option>
 								  </select>
 								  	&ensp;
-								  <button class="btn btn-outline-secondary">Assign </button>
+								  <button class="btn btn-outline-secondary" data-dismiss="modal" onClick="addRecruiter('<%= job._id %>')">Assign </button>
 								</div>
-					        </form>
-					      </div>
-					      <div class="modal-footer">
-					        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					        <button type="button" class="btn btn-primary">Save changes</button>
 					      </div>
 					    </div>
 					  </div>
@@ -94,18 +88,30 @@
 
 	
 <script>
-	function getAccountManager(){
-		console.log("here")
+	window.onload= function getAccountManager(){
 		var newURL =  window.location.pathname;
 		var pathArray= newURL.split("/");
 		$.get({url: "/getAccountManager/"+pathArray[2]},function(data, status){
-			console.log(data);
+			// console.log(data);
 			data.freelance_recruiters.forEach(function(recruiter){
-
-			$('#assignRecruits').append('<option value="'+ recruiter._id+'"> '+ recruiter.name + '</option>')
+				// console.log(recruiter.name+" "+recruiter._id)
+			$('.assignRecruits').append('<option value="'+ recruiter._id+'"> '+ recruiter.name + '</option>')
 			})
 		})
-		console.log(pathArray[2]);
+		// console.log(pathArray[2]);
+	}
+
+	function addRecruiter(jobId){
+		var newURL =  window.location.pathname;
+		var pathArray= newURL.split("/");
+		console.log("here, here"+jobId);
+		var recruiter=$('#recruit'+jobId).val();
+		console.log(recruiter);
+		var sendRecruiter=$.post("/accountmanager/"+pathArray[2]+"/job/addrecruiter",{jobId: jobId, recruiterId: recruiter});
+
+		sendRecruiter.done(function(data){
+			console.log(data);
+		})
 	}
 
 </script>
