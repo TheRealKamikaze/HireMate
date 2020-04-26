@@ -52,15 +52,19 @@
 						</p>
 						<hr>
 						<button class="btn btn-outline-secondary" id="accept<%=job.assigned_job%>" 
-						<% if(job.status==="none"){ %> 
+						<% if(job.status!=="none"){ %> 
 							<%= "hidden" %> 
 						<% } %> 
-							>Accept </button>
-						<button class="btn btn-outline-danger" id="reject<%=job._id%>">Reject</button>
-					    <button class="btn btn btn-outline-secondary job-id" data-toggle="modal" data-target="#exampleModalCenter<%=job._id%>" hidden >
+							onClick="actionJob('<%=job.assigned_job %>','accepted')">Accept </button>
+						<button class="btn btn-outline-danger" id="reject<%=job.assigned_job%>" 
+							<% if(job.status!=="none"){ %> 
+							<%= "hidden" %> 
+						<% } %> onClick="actionJob('<%=job.assigned_job %>','rejected')"
+						>Reject</button>
+					    <button class="btn btn btn-outline-secondary job-id" id="addcandidates<%=job.assigned_job%>" data-toggle="modal" data-target="#exampleModalCenter<%=job._id%>" style='visibility: <% if(job.status==="accepted"){ %> <%= "visible" %> <% }else{ %><%= "hidden" %><% } %>'>
 					    	Add candidates
 					    </button>
-					    <div id="rejected<%=job._id%>" hidden><p>Rejected...</p></div>
+					    <div id="rejected<%=job.assigned_job%>"  style='color: Red; visibility: <% if(job.status!=="rejected"){ %> <%= "hidden" %> <% }else{ %><%= "visible" %><% } %>'><p>Rejected...</p></div>
 					  </div>
 					</div>
 
@@ -79,11 +83,11 @@
 					      
 					        <br>
 					        	<div class="form-group form-inline">
-								  <select class="form-control assignRecruits" id="recruit<%=job._id %>" width="100%">
-								    <option> Add recruit</option>
+								  <select class="form-control selectCandidates" id="add<%=job.assigned_job %>" width="100%">
+								    <option> Select candidate</option>
 								  </select>
 								  	&ensp;
-								  <button class="btn btn-outline-secondary" data-dismiss="modal" onClick="addRecruiter('<%= job._id %>')">Assign </button>
+								  <button class="btn btn-outline-secondary" data-dismiss="modal" onClick="addCandidate('<%= job.assigned_job %>')">Add </button>
 								</div>
 					      </div>
 					    </div>
@@ -96,16 +100,45 @@
 	
 <script>
 	
-	function addRecruiter(jobId){
+	function actionJob(assignedJob,status){
 		var newURL =  window.location.pathname;
 		var pathArray= newURL.split("/");
-		console.log("here, here"+jobId);
-		var recruiter=$('#recruit'+jobId).val();
-		console.log(recruiter);
-		var sendRecruiter=$.post("/accountmanager/"+pathArray[2]+"/job/addrecruiter",{jobId: jobId, recruiterId: recruiter});
-
-		sendRecruiter.done(function(data){
+		console.log(status)
+		var acceptjob=$.post("/freelancerecruiters/"+pathArray[2]+"/actionJob",{assignedJob: assignedJob,jobStatus: status});
+		acceptjob.done(function(data){
+			$('#accept'+assignedJob).hide();
+			$('#reject'+assignedJob).hide();
+			if(status==='accepted'){
+				$('#addcandidates'+assignedJob).css('visibility','visible');
+				$('#addcandidates'+assignedJob).show();
+			}else{
+				$('#rejected'+assignedJob).css('visibility','visible');
+				$('#rejected'+assignedJob).show();
+			}
 			console.log(data);
+		})
+	}
+
+
+	function addCandidate(assignedJob){
+		// console.log(assignedJob);
+		var newURL =  window.location.pathname;
+		var pathArray= newURL.split("/");
+		// console.log("here, here"+jobId);
+		var candidateId=$('#add'+assignedJob).val();
+		console.log(candidateId);
+		var addCandidates=$.post("/freelancerecruiters/"+pathArray[2]+"/job/addCandidate",{assignedJob:assignedJob,candidateId: candidateId});
+
+		addCandidates.done(function(data){
+			console.log(data);
+		})
+	}
+
+window.onload= function getAccountManager(){
+		$.get({url: "/getCandidates/"},function(candidates, status){
+			candidates.forEach(function(candy){
+			$('.selectCandidates').append('<option value="'+ candy._id+'"> '+ candy.name + '</option>')
+			})
 		})
 	}
 

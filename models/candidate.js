@@ -3,6 +3,8 @@ var ass_jobs				= require("./assigned_jobs");
 
 
 var candidateSchema = new mongoose.Schema({
+	name: String,
+	location: String,
 	assigned_job: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "ass_jobs" 

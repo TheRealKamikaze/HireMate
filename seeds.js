@@ -1,7 +1,8 @@
 var mongoose = require("mongoose"),
 	jobs	 = require("./models/job"),
 	freelance_recruiters	= require('./models/freelance_recruiters'),
-	accountManagers		= require('./models/account_manager');
+	accountManagers		= require('./models/account_manager'),
+	candidate			= require('./models/candidate')
 
 
 var data = [
@@ -258,50 +259,143 @@ data3=[
 		}
 ]
 
+var candidateData=[
+	{
+		name: "Vijay Gajwani",
+		submit_date: '2020-04-25',
+		status: 'none',
+		job_title: 'Android Developer',
+		qualification: 'BE',
+		location: 'Mumbai',
+		experience: 5,
+		skills: ["C","Java"],
+		additional_skills: ["Web","backend"]
+	},
+	{
+		name: "Varsha Chhipa",
+		submit_date: '2020-04-25',
+		status: 'none',
+		job_title: 'Android Developer',
+		qualification: 'BE',
+		experience: 5,
+		location: 'Mumbai',
+		skills: ["C","Java"],
+		additional_skills: ["Web","backend"]
+	},
+	{
+		name: "Saloni bhambhure",
+		submit_date: '2020-04-25',
+		status: 'none',
+		job_title: 'IOS Developer',
+		qualification: 'BE',
+		experience: 5,
+		location: 'Mumbai',
+		skills: ["C","Java"],
+		additional_skills: ["Web","backend"]
+	},
+	{
+		name: "Hardik Rathod",
+		submit_date: '2020-04-25',
+		status: 'none',
+		job_title: 'Android Developer',
+		qualification: 'BE',
+		experience: 5,
+		skills: ["C","Java"],
+		location: 'Mumbai',
+		additional_skills: ["Web","backend"]
+	},
+	{
+		name: "Animesh Ghosh",
+		submit_date: '2020-04-25',
+		status: 'none',
+		job_title: 'SFDC Developer',
+		qualification: 'BE',
+		experience: 5,
+		skills: ["C","Java"],
+		location: 'Mumbai',
+		additional_skills: ["Web","backend"]
+	},
+	{
+		name: "Dhruvil Shah",
+		submit_date: '2020-04-25',
+		status: 'none',
+		job_title: 'SAP analyst',
+		qualification: 'BE',
+		experience: 5,
+		location: 'Mumbai',
+		skills: ["C","Java"],
+		additional_skills: ["Web","backend"]
+	},
+	{
+		name: "Aniket Patil",
+		submit_date: '2020-04-25',
+		status: 'none',
+		job_title: 'Web Developer',
+		qualification: 'BE',
+		experience: 5,
+		location: 'Mumbai',
+		skills: ["C","Java"],
+		additional_skills: ["Web","backend"]
+	}
+
+]
 
 function seedDB(){
-	jobs.remove({},function(err){
+	// jobs.remove({},function(err){
+	// 	if(err)
+	// 		console.log(err)
+	// 	console.log("cleared");
+	// })
+
+	// data.forEach(function(job){
+	// 	jobs.create(job,function(err,addedJob){
+	// 		if(err)
+	// 			console.log(err);
+	// 		console.log(addedJob);
+	// 	})
+	// })
+
+	// freelance_recruiters.remove({},function(err){
+	// 	if(err)
+	// 		console.log(err)
+	// 	console.log("cleared");
+	// })
+
+	// data1.forEach(function(recruit){
+	// 	freelance_recruiters.create(recruit,function(err,addedRecruit){
+	// 		if(err)
+	// 			console.log(err);
+	// 		console.log(addedRecruit);
+	// 	})
+	// })
+
+	// accountManagers.remove({},function(err){
+	// 	if(err)
+	// 		console.log(err)
+	// 	console.log("cleared");
+	// })
+
+	// data3.forEach(function(accountManager){
+	// 	accountManagers.create(accountManager,function(err,addedManager){
+	// 		if(err)
+	// 			console.log(err);
+	// 		console.log(addedManager);
+	// 	})
+	// })
+
+	candidate.remove({},function(err){
 		if(err)
 			console.log(err)
 		console.log("cleared");
 	})
 
-	data.forEach(function(job){
-		jobs.create(job,function(err,addedJob){
+	candidateData.forEach(function(candy){
+		candidate.create(candy,function(err,addedCandidate){
 			if(err)
 				console.log(err);
-			console.log(addedJob);
+			console.log(addedCandidate);
 		})
 	})
-
-	freelance_recruiters.remove({},function(err){
-		if(err)
-			console.log(err)
-		console.log("cleared");
-	})
-
-	data1.forEach(function(recruit){
-		freelance_recruiters.create(recruit,function(err,addedRecruit){
-			if(err)
-				console.log(err);
-			console.log(addedRecruit);
-		})
-	})
-
-	accountManagers.remove({},function(err){
-		if(err)
-			console.log(err)
-		console.log("cleared");
-	})
-
-	data3.forEach(function(accountManager){
-		accountManagers.create(accountManager,function(err,addedManager){
-			if(err)
-				console.log(err);
-			console.log(addedManager);
-		})
-	})
-
 
 }
 

@@ -13,7 +13,7 @@ var express 			= require('express'),
 	seedDB				= require('./seeds');
 
 // seedDB()
-mongoose.connect("mongodb+srv://tarun:bQjO4VVIIsJSNez4@cluster0-a0vpp.mongodb.net/HireMate?retryWrites=true&w=majority", { useNewUrlParser: true,  useUnifiedTopology: true  },);
+mongoose.connect("mongodb+srv://tarun:bQjO4VVIIsJSNez4@cluster0-a0vpp.mongodb.net/HireMate?retryWrites=true&w=majority", { useNewUrlParser: true,  useUnifiedTopology: true, useCreateIndex: true  },);
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended:true}));
@@ -147,6 +147,34 @@ app.get("/freelancerecruiters/:id/assignedjobs",async (req,res)=>{
 		res.render("freelancerecruiters/jobs",{jobs:jobsToSend});
 })
 
+// accept jobs 
+app.post("/freelancerecruiters/:id/actionJob", async (req,res)=>{
+	let job= await assignedJobs.findById(req.body.assignedJob);
+	// console.log(req.body.jobStatus)
+	job.status=req.body.jobStatus;
+	job.save();
+	// console.log(job);
+	res.json(job);
+})
+
+//get candidates
+app.get("/getCandidates",function(req,res){
+	candidate.find({},function(err,candidd){
+		if(err)
+			console.log(err)
+		// console.log(candidd)
+		res.json(candidd);
+	})
+})
+
+app.post("/freelancerecruiters/:id/job/addCandidate",function(req,res){
+	assignedJobs.findById(req.body.assignedJob,function(err,job){
+		job.candidate_id.push(req.body.candidateId);
+		job.save();
+		console.log(job)
+		res.json(job);
+	})
+})
 
 app.listen(3000,function(req,res){
 	console.log("HireMate is listening to your job requirements!!");
