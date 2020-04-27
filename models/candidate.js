@@ -10,6 +10,7 @@ var candidateSchema = new mongoose.Schema({
 		ref: "ass_jobs" 
 	},
 	submit_date: Date,
+	job_title: String,
 	status: String,
 	experience: Number,
 	qualification: String,

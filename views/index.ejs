@@ -1,6 +1,6 @@
 <%- include('partials/header.ejs') %>
 
-<h1>Managers</h1>
+<!-- <h1>Managers</h1>
 <% accountManagers.forEach(function(manager){ %>
 	<a href="/accountmanager/<%= manager._id %>/jobs">link </a>
 	<br>
@@ -10,6 +10,67 @@
 <% recruiters.forEach(function(recruiter){ %>
 	<a href="/freelancerecruiters/<%= recruiter._id %>/assignedjobs">link </a>
 	<br>
-<% }) %>
+<% }) %> -->
+
+<div class="container" style="text-align: center; ">
+	<div class="btn-group" role="group"  aria-label="Basic example">
+		<button type="button" class="btn btn-secondary" style="background-color: #343a40" onclick="loginManager()">Login as Manager</button>
+		<button type="button" class="btn btn-secondary" style="background-color: #343a40" onclick="loginRecruiter()">Login as Recruiter</button>
+	</div>
+</div>
+
+<div id="loginAsManager" class="container">
+    <div class="row">
+         <h1 style="text-align: center; width: 100%; margin:25 0;">Login as Manager</h1>
+        <div style="width: 30%; margin: 0 auto;">
+            <form action="/loginAsManager" method="POST">
+               <div class="form-group">
+                <label for="username">username:</label>
+								<input type="text" class="form-control" name="username">
+               </div>
+							 <div class="form-group">
+                <label for="username">Password:</label>
+								<input type="password" class="form-control" name="password">
+               </div>
+                <button class="btn btn-outline-secondary btn-block" type="submit" >Login</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="loginAsRecruiter" class="container">
+    <div class="row">
+         <h1 style="text-align: center; width: 100%; margin:25 0;">Login as Recruiter</h1>
+        <div style="width: 30%; margin: 0 auto;">
+            <form action="/loginAsRecruiter" method="POST">
+               <div class="form-group">
+                <label for="username">username:</label>
+								<input type="text" class="form-control" name="username">
+               </div>
+							 <div class="form-group">
+                <label for="username">Password:</label>
+								<input type="password" class="form-control" name="password">
+               </div>
+                <button class="btn btn-outline-secondary btn-block" type="submit" >Login</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+		function loginManager(){
+			$("#loginAsRecruiter").hide();
+			$("#loginAsManager").show();
+		}
+
+		function loginRecruiter(){
+			$("#loginAsManager").hide();
+			$("#loginAsRecruiter").show();
+		}
+
+		$(document).ready(function(){
+			$("#loginAsRecruiter").hide();
+		})
+</script>
 
 <%- include('partials/footer.ejs') %>

@@ -341,47 +341,47 @@ var candidateData=[
 ]
 
 function seedDB(){
-	// jobs.remove({},function(err){
-	// 	if(err)
-	// 		console.log(err)
-	// 	console.log("cleared");
-	// })
+	jobs.remove({},function(err){
+		if(err)
+			console.log(err)
+		console.log("cleared");
+	})
 
-	// data.forEach(function(job){
-	// 	jobs.create(job,function(err,addedJob){
-	// 		if(err)
-	// 			console.log(err);
-	// 		console.log(addedJob);
-	// 	})
-	// })
+	data.forEach(function(job){
+		jobs.create(job,function(err,addedJob){
+			if(err)
+				console.log(err);
+			console.log(addedJob);
+		})
+	})
 
-	// freelance_recruiters.remove({},function(err){
-	// 	if(err)
-	// 		console.log(err)
-	// 	console.log("cleared");
-	// })
+	freelance_recruiters.remove({},function(err){
+		if(err)
+			console.log(err)
+		console.log("cleared");
+	})
 
-	// data1.forEach(function(recruit){
-	// 	freelance_recruiters.create(recruit,function(err,addedRecruit){
-	// 		if(err)
-	// 			console.log(err);
-	// 		console.log(addedRecruit);
-	// 	})
-	// })
+	data1.forEach(function(recruit){
+		freelance_recruiters.create(recruit,function(err,addedRecruit){
+			if(err)
+				console.log(err);
+			console.log(addedRecruit);
+		})
+	})
 
-	// accountManagers.remove({},function(err){
-	// 	if(err)
-	// 		console.log(err)
-	// 	console.log("cleared");
-	// })
+	accountManagers.remove({},function(err){
+		if(err)
+			console.log(err)
+		console.log("cleared");
+	})
 
-	// data3.forEach(function(accountManager){
-	// 	accountManagers.create(accountManager,function(err,addedManager){
-	// 		if(err)
-	// 			console.log(err);
-	// 		console.log(addedManager);
-	// 	})
-	// })
+	data3.forEach(function(accountManager){
+		accountManagers.create(accountManager,function(err,addedManager){
+			if(err)
+				console.log(err);
+			console.log(addedManager);
+		})
+	})
 
 	candidate.remove({},function(err){
 		if(err)

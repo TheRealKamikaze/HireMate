@@ -131,6 +131,51 @@ app.get("/getAccountManager/:id",function(req,res){
 
 
 
+//getting assigned jobs for the account manager
+app.get("/accountmanager/:id/assignedjobs",async (req,res)=>{
+	console.log(req.params.id);
+	let jobArray=[];
+	let assignedjobs= await assignedJobs.find({account_manager: req.params.id});
+	for(let updateJob of assignedjobs){
+		jobArray.push(updateJob.job_id);
+	}
+	jobArray2 = [... new Set(jobArray)] 
+	console.log(jobArray2);
+	jobArray.splice(0,jobArray.length)
+	console.log(jobArray);
+	try{
+		for(eachJob of jobArray2){
+			let addjob = await jobs.findById(eachJob);
+			jobArray.push(addjob);
+		}
+
+	}catch(err){
+		console.log(err)
+	}
+	res.render("accountmanager/assignedjobs",{jobs:jobArray});
+})
+
+app.get("/accountmanager/:id/assignedjobs/:jobid/candidates",async (req,res)=>{
+	let assjobs  = await assignedJobs.find({job_id: req.params.jobid});
+	let candidates=[]
+	for(let eachAssJob of assjobs){
+		let candies = await eachAssJob.candidate_id;
+		for(let candy of candies){
+			console.log(candy)
+			candidates.push(candy);
+		}
+	}
+	let candidates2=await [... new Set(candidates)];
+	console.log(candidates2);
+	candidates.splice(0,candidates.length)
+	for( let eachCandidate of candidates2){
+		let eachcandy = await candidate.findById(eachCandidate);
+		console.log(eachcandy)
+		candidates.push(await eachcandy);
+	}
+	console.log(candidates);
+	res.render("candidates/index",{candidates: candidates});
+})
 
 //assigned jobs for recruiters
 app.get("/freelancerecruiters/:id/assignedjobs",async (req,res)=>{
