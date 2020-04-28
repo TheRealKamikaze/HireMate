@@ -1,14 +1,17 @@
 var mongoose				= require('mongoose');
-var passportLocalMongoose	= require('passport-local-mongoose');
 var assignedJobs				= require("./assigned_jobs");
 var uniquePlugin = require('mongoose-unique-validator');
-
+const bcrypt = require("bcrypt");
 var freelanceRecruitersSchema = new mongoose.Schema({
+	username: {
+		type: String,
+		required: true
+	},
 	register_date: Date,
 	name: String,
 	email: {
 		type: String,
-		// unique: true
+		unique: true
 	},
 	profile_type: String,
 	experience_level: String,
@@ -17,16 +20,29 @@ var freelanceRecruitersSchema = new mongoose.Schema({
 		{
 			type: String
 		}
-	],		//verify this
+	],
 	assigned_jobs: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "assigned_jobs"
 		}
 	],
-	password: String
-})	//.plugin(uniquePlugin);
+	password: {
+		type: String,
+		required: true
+	},
+	role: {
+		type: Number,
+		default: 0
+	}
+}).plugin(uniquePlugin);
 
-// freelanceRecruitersSchema.plugin(passportLocalMongoose);
+freelanceRecruitersSchema.methods.hashPassword = async(password)=>{
+	return await bcrypt.hash(password,10)
+}
 
-module.exports = mongoose.model("freelance_recruiters",freelanceRecruitersSchema); 
+freelanceRecruitersSchema.methods.comparePassword = async (password,hash)=>{
+	console.log("in")
+	return await bcrypt.compare(password,hash)
+}
+module.exports = mongoose.model("freelance_recruiters",freelanceRecruitersSchema);

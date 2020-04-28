@@ -15,19 +15,36 @@
 
 	<body>
 		<div id="mySidenav" class="sidenav">
-		  <br>
 		  <a href="javascript:void(0)" class="closebtn" style="margin-top: 50px; " onclick="closeNav()">&times;</a>
-		  <a href="#">About</a>
-		  <a href="#">Services</a>
-		  <a href="#">Clients</a>
-		  <a href="#">Contact</a>
+      <% if(currentUser!==undefined && currentUser.role===1){ %>
+        <br>
+        <p style="color: White">Navigation </p>
+        <a href="/accountmanager/<%=currentUser._id%>/jobs" style="font-size: 100%">Dashboard</a>
+        <a style="font-size: 100%" href="/accountmanager/<%=currentUser._id%>/recruiters">Recruiters</a>
+        <br>
+        <p style="color: White"> Jobs </p>
+        <a style="font-size: 100%" href="/accountmanager/<%=currentUser._id%>/assignedJobs">Live Jobs</a>
+        <a style="font-size: 100%" href="/allCandidates">Receive Candidates</a>
+        <br>
+        <p style="color: White"> Support </p>
+        <a style="font-size: 100%" href="#">Help Desk</a>
+        <a style="font-size: 100%" href="#">Tutorial</a>
+        <a style="font-size: 100%" href="#">Feedback</a>
+      <% } %>
 		</div>
 
 
-		
+
 		  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 			  <span class="navbar-toggler-icon btn btn-default nav-item nav-link" onclick="openNav()"></span>
-			  <a class="navbar-brand" href="/">HireMate</a>
+        <% if(currentUser!==undefined){%>
+          <% if(currentUser.role===1){ %>
+          <a class="navbar-brand" href="/accountmanager/<%=currentUser._id%>/jobs">HireMate</a>
+        <% }else if(currentUser.role===0){ %>
+          <a class="navbar-brand" href="/freelancerecruiters/<%=currentUser._id%>/assignedjobs">HireMate</a>
+        <% }}else{ %>
+          <a class="navbar-brand" href="/">HireMate</a>
+        <% } %>
 			  <div class="collapse navbar-collapse" id="navbarSupportedContent">
 			    <ul class="navbar-nav ml-auto">
 			      <li class="nav-item">
@@ -44,18 +61,23 @@
 						</svg>
 			        </a>
 			      </li>
-			      <li class="nav-item dropdown">
-			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
-			          User Name
-			        </a>
-			        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-			          <a class="dropdown-item" href="#">Action</a>
-			          <a class="dropdown-item" href="#">Another action</a>
-			          <div class="dropdown-divider"></div>
-			          <a class="dropdown-item" href="#">Something else here</a>
-				  <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM13 6.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z" clip-rule="evenodd"/>
-			        </div>
+            <% if(currentUser!==undefined){ %>
+  			      <li class="nav-item dropdown">
+  			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
+  			          <%= currentUser.name %>
+  			        </a>
+  			        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+  			          <a class="dropdown-item" href="#">Action</a>
+  			          <a class="dropdown-item" href="#">action1</a>
+  			          <div class="dropdown-divider"></div>
+  			          <a class="dropdown-item" href="/logout">Logout</a>
+  				      </div>
 			      </li>
+            <% }else{ %>
+            <li class="nav-item">
+              <a class="nav-link" style="color: white" href="/">Login</a>
+            </li>
+            <%}%>
 			    </ul>
 			  </div>
 			</nav>
@@ -84,5 +106,3 @@
 			</div>
 
 			<div id="main">
-			
-

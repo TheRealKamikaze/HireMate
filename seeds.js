@@ -1,8 +1,9 @@
-var mongoose = require("mongoose"),
-	jobs	 = require("./models/job"),
+var mongoose 						= require("mongoose"),
+	jobs	 								= require("./models/job"),
 	freelance_recruiters	= require('./models/freelance_recruiters'),
-	accountManagers		= require('./models/account_manager'),
-	candidate			= require('./models/candidate')
+	accountManagers				= require('./models/account_manager'),
+	candidate							= require('./models/candidate'),
+	axios									=	require('axios');
 
 
 var data = [
@@ -119,8 +120,10 @@ var data = [
 ]
 
 
-var data1 = [
+var recruiterData = [
 			{
+				username: "amit.mahajan",
+				password: "amitmahajan",
 				register_date: '2018-10-22',
 				name: "Amit Mahajan",
 				email: "a13@m.jan",
@@ -130,6 +133,8 @@ var data1 = [
 				locations: ["mumbai", "pune"]
 			},
 			{
+				username: "akshay.kotak",
+				password: "amitmahajan",
 				register_date: '2018-10-22',
 				name: "Akshay Kotak",
 				email: "a12@m.jan",
@@ -139,6 +144,8 @@ var data1 = [
 				locations: ["mumbai", "pune"]
 			},
 			{
+				username: "tarun.lohana",
+				password: "tarunlohana",
 				register_date: '2018-10-22',
 				name: "Tarun Lohana",
 				email: "a11@m.jan",
@@ -148,6 +155,8 @@ var data1 = [
 				locations: ["mumbai", "pune"]
 			},
 			{
+				username: "shivam.sansare",
+				password: "shivamsansare",
 				register_date: '2018-10-22',
 				name: "Shivam Sansare",
 				email: "a10@m.jan",
@@ -157,6 +166,8 @@ var data1 = [
 				locations: ["mumbai", "pune"]
 			},
 			{
+				username: "muskaan.gupta",
+				password: "muskaangupta",
 				register_date: '2018-10-22',
 				name: "Muskaan Gupta",
 				email: "a9@m.jan",
@@ -166,6 +177,8 @@ var data1 = [
 				locations: ["mumbai", "pune"]
 			},
 			{
+				username: "yash.acharya",
+				password: "yashacharya",
 				register_date: '2018-10-22',
 				name: "Yash Acharya",
 				email: "a8@m.jan",
@@ -175,6 +188,8 @@ var data1 = [
 				locations: ["mumbai", "pune"]
 			},
 			{
+				username: "shubham.chhipa",
+				password: "shubhamchhipa",
 				register_date: '2018-10-22',
 				name: "Shubham Chhipa",
 				email: "a7@m.jan",
@@ -184,6 +199,8 @@ var data1 = [
 				locations: ["mumbai", "pune"]
 			},
 			{
+				username: "jay.lohana",
+				password: "jaylohana",
 				register_date: '2018-10-22',
 				name: "Jay Lohana",
 				email: "a6@m.jan",
@@ -193,6 +210,8 @@ var data1 = [
 				locations: ["mumbai", "pune"]
 			},
 			{
+				username: "jaynam.sanghvi",
+				password: "amitmahajan",
 				register_date: '2018-10-22',
 				name: "Jaynam Sanghvi",
 				email: "a5@m.jan",
@@ -202,6 +221,8 @@ var data1 = [
 				locations: ["mumbai", "pune"]
 			},
 			{
+				username: "yogesh.khatri",
+				password: "amitmahajan",
 				register_date: '2018-10-22',
 				name: "Yogesh Khatri",
 				email: "a4@m.jan",
@@ -211,6 +232,8 @@ var data1 = [
 				locations: ["mumbai", "pune"]
 			},
 			{
+				username: "pappu.kalani",
+				password: "amitmahajan",
 				register_date: '2018-10-22',
 				name: "Pappu Kalani",
 				email: "a3@m.jan",
@@ -220,6 +243,8 @@ var data1 = [
 				locations: ["mumbai", "pune"]
 			},
 			{
+				username: "kumar.ailani",
+				password: "amitmahajan",
 				register_date: '2018-10-22',
 				name: "Kumar Ailani",
 				email: "a1@m.jan",
@@ -229,6 +254,8 @@ var data1 = [
 				locations: ["mumbai", "pune"]
 			},
 			{
+				username: "narendra.modi",
+				password: "motaBhai",
 				register_date: '2018-10-22',
 				name: "Narendra Modi",
 				email: "a2@m.jan",
@@ -239,8 +266,9 @@ var data1 = [
 			}
 ]
 
-data3=[
+accountManagerdata=[
 		{
+			username: "bukhaaChuha",
 			employee_id: "1234",
 			register_date: "2000-10-22",
 			name: "Mickey Mouse",
@@ -255,7 +283,16 @@ data3=[
 			name: "Minnie Mouse",
 			email: "minniemouse@disneyLand.com",
 			location: "imagination",
-			password: "abc"	
+			password: "abc"
+		},
+		{
+			username: "Oliver.Queen",
+			employee_id: "123456",
+			register_date: "2001-10-22",
+			name: "Oliver Queen",
+			email: "oliverqueen@starlingcity.com",
+			location: "imagination",
+			password: "bestArcherAlive"
 		}
 ]
 
@@ -351,7 +388,7 @@ function seedDB(){
 		jobs.create(job,function(err,addedJob){
 			if(err)
 				console.log(err);
-			console.log(addedJob);
+			// console.log(addedJob);
 		})
 	})
 
@@ -361,13 +398,15 @@ function seedDB(){
 		console.log("cleared");
 	})
 
-	data1.forEach(function(recruit){
-		freelance_recruiters.create(recruit,function(err,addedRecruit){
-			if(err)
+	recruiterData.forEach(async (recruiter)=> {
+			try{
+				let reponse = await axios.post("http://127.0.0.1:3000/freelancerecruiters/register",{"recruiter": recruiter});
+				// console.log(response);
+			}catch(err){
 				console.log(err);
-			console.log(addedRecruit);
+			}
 		})
-	})
+
 
 	accountManagers.remove({},function(err){
 		if(err)
@@ -375,12 +414,13 @@ function seedDB(){
 		console.log("cleared");
 	})
 
-	data3.forEach(function(accountManager){
-		accountManagers.create(accountManager,function(err,addedManager){
-			if(err)
-				console.log(err);
-			console.log(addedManager);
-		})
+	accountManagerdata.forEach(async(accountManager)=>{
+		try{
+			let response = await axios.post("http://127.0.0.1:3000/accountManagers/register",{"manager": accountManager});
+			// console.log(response);
+		}catch(err){
+			console.log(err);
+		}
 	})
 
 	candidate.remove({},function(err){
@@ -393,7 +433,7 @@ function seedDB(){
 		candidate.create(candy,function(err,addedCandidate){
 			if(err)
 				console.log(err);
-			console.log(addedCandidate);
+			// console.log(addedCandidate);
 		})
 	})
 
