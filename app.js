@@ -18,7 +18,7 @@ var express 										= require('express'),
 	candidateController 					= require('./controller/candidate');
 	require('./config/passportConfig')(passport);
 // seedDB()
-mongoose.connect("mongodb+srv://tarun:cCuAL4Qvwe2TeKQT@cluster0-a0vpp.mongodb.net/HireMate?retryWrites=true&w=majority", { useNewUrlParser: true,  useUnifiedTopology: true, useCreateIndex: true  },);
+mongoose.connect("mongodb+srv://tarun:<password>@cluster0-a0vpp.mongodb.net/HireMate?retryWrites=true&w=majority", { useNewUrlParser: true,  useUnifiedTopology: true, useCreateIndex: true  },);
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended:true}));
