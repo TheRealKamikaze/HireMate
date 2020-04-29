@@ -24,13 +24,24 @@
         <br>
         <p style="color: White"> Jobs </p>
         <a style="font-size: 100%" href="/accountmanager/<%=currentUser._id%>/assignedJobs">Live Jobs</a>
-        <a style="font-size: 100%" href="/allCandidates">Receive Candidates</a>
+        <a style="font-size: 100%" href="/candidates">Receive Candidates</a>
         <br>
-        <p style="color: White"> Support </p>
-        <a style="font-size: 100%" href="#">Help Desk</a>
-        <a style="font-size: 100%" href="#">Tutorial</a>
-        <a style="font-size: 100%" href="#">Feedback</a>
+      <% }else if(currentUser!==undefined && currentUser.role===0){ %>
+        <br>
+        <p style="color: White">Navigation </p>
+        <a href="/freelancerecruiters/<%=currentUser._id%>/assignedjobs" style="font-size: 100%">Dashboard</a>
+        <a style="font-size: 100%" href="/candidates">candidates</a>
+        <br>
+        <p style="color: White"> Jobs </p>
+        <a style="font-size: 100%" href="/freelancerecruiters/<%=currentUser._id%>/assignedJobs">Live Jobs</a>
+        <a style="font-size: 100%" href="/freelancerecruiters/<%=currentUser._id%>/acceptedjobs">Accepted Jobs</a>
+        <a style="font-size: 100%" href="/freelancerecruiters/<%=currentUser._id%>/rejectedjobs">Rejected Jobs</a>
       <% } %>
+      <br>
+      <p style="color: White"> Support </p>
+      <a style="font-size: 100%" href="#">Help Desk</a>
+      <a style="font-size: 100%" href="#">Tutorial</a>
+      <a style="font-size: 100%" href="#">Feedback</a>
 		</div>
 
 

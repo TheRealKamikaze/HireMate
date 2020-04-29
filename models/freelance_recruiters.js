@@ -42,7 +42,7 @@ freelanceRecruitersSchema.methods.hashPassword = async(password)=>{
 }
 
 freelanceRecruitersSchema.methods.comparePassword = async (password,hash)=>{
-	console.log("in")
+	// console.log("in")
 	return await bcrypt.compare(password,hash)
 }
 module.exports = mongoose.model("freelance_recruiters",freelanceRecruitersSchema);

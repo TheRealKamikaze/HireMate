@@ -1,0 +1,45 @@
+<%- include('../partials/header.ejs') %>
+<div class="container">
+  <h6 class="display-4">My Recruiters</h6>
+  <hr>
+    <% recruiters.forEach(function(recruiter){ %>
+      <% if(currentUser!==undefined && currentUser.freelance_recruiters.includes(recruiter._id)){ %>
+          <div class="">
+            <p class="lead"> <%= recruiter.name %> </p>
+            <hr>
+          </div>
+      <% }   %>
+    <% }) %>
+    <% if(currentUser!==undefined && currentUser.freelance_recruiters.length===0){ %>
+      &emsp;<p style="display: inline;" class="lead" >No added recruiters! </p>
+      <hr>
+    <% } %>
+</div>
+
+<div class="container">
+  <h6 class="display-4">Other Recruiters </h6>
+  <hr>
+    <% recruiters.forEach(function(recruiter){ %>
+      <% if(currentUser!==undefined && !currentUser.freelance_recruiters.includes(recruiter._id)){ %>
+          <div class="" >
+            &emsp;<p style="display: inline;" class="lead" > <%= recruiter.name %> </p>
+            <button type="button" class="btn btn-outline-secondary float-right" id="addRecruiter<%=recruiter._id%>" onClick="addRecruiter('<%=recruiter._id%>','<%=currentUser._id%>')" name="button" >Add</button>
+            <p style="color: green; visibility: hidden;" class="float-right" id="addedRecruiter<%=recruiter._id%>">Added!!</p>
+            <hr>
+          </div>
+      <% }%>
+    <% }) %>
+</div>
+<script type="text/javascript">
+  async function addRecruiter(recruiterId,currentUser){
+    console.log(recruiterId)
+    let sendRecruiter = $.post("/accountmanager/"+currentUser+"/addrecruiter",{recruiterId: recruiterId});
+    sendRecruiter.done(function(data){
+      console.log(data)
+    })
+    $("#addRecruiter"+recruiterId).hide();
+    $("#addedRecruiter"+recruiterId).css("visibility", "visible");
+    $("#addedRecruiter"+recruiterId).show();
+  }
+</script>
+<%- include('../partials/footer.ejs') %>
